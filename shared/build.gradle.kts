@@ -8,6 +8,16 @@ kotlin {
     jvm()
     androidTarget()
 
+    listOf(
+        iosArm64(),
+        iosX64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "shared"
+        }
+    }
+
     sourceSets {
         commonMain {
             dependencies {
@@ -30,7 +40,7 @@ android {
     namespace = findProperty("app.namespace").toString()
     compileSdk = findProperty("android.compileSdk").toString().toInt()
 
-    compileOptions{
+    compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
