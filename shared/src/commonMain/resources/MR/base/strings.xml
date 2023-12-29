@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="dark_theme">Dark theme</string>
+    <string name="events">Events</string>
+    <string name="categories">Categories</string>
+    <string name="settings">Settings</string>
+</resources>

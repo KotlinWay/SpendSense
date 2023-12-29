@@ -1,4 +1,4 @@
-package info.javaway.spend_sense.root
+package info.javaway.spend_sense.root.model
 
 import info.javaway.spend_sense.base.BaseViewState
 import info.javaway.spend_sense.common.ui.AppPrefs
@@ -7,7 +7,8 @@ class RootContract {
 
     data class RootState(
         val themeIsDark: Boolean,
-        val firstDayIsMonday: Boolean
+        val firstDayIsMonday: Boolean,
+        val selectedTab: AppTab
     ): BaseViewState{
 
         val appPrefs: AppPrefs
@@ -16,7 +17,8 @@ class RootContract {
         companion object {
             val NONE = RootState(
                 themeIsDark = false,
-                firstDayIsMonday = true
+                firstDayIsMonday = true,
+                selectedTab = AppTab.Events
             )
         }
     }
