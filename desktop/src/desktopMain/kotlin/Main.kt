@@ -12,7 +12,7 @@ fun main() {
 
     application {
 
-        val state = rememberWindowState().apply { size = DpSize(200.dp, 200.dp) }
+        val state = rememberWindowState().apply { size = DpSize(800.dp, 600.dp) }
         Window(
             onCloseRequest = { exitApplication() },
             state = state,
