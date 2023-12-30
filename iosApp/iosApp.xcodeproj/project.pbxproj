@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A0D1809F2B16D80A0022C4CA /* iosAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D1809E2B16D80A0022C4CA /* iosAppApp.swift */; };
+		A0D1809F2B16D80A0022C4CA /* iosApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D1809E2B16D80A0022C4CA /* iosApp.swift */; };
 		A0D180A12B16D80A0022C4CA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D180A02B16D80A0022C4CA /* ContentView.swift */; };
 		A0D180A32B16D80B0022C4CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D180A22B16D80B0022C4CA /* Assets.xcassets */; };
 		A0D180A62B16D80B0022C4CA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0D180A52B16D80B0022C4CA /* Preview Assets.xcassets */; };
@@ -15,7 +15,7 @@
 
 /* Begin PBXFileReference section */
 		A0D1809B2B16D80A0022C4CA /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A0D1809E2B16D80A0022C4CA /* iosAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppApp.swift; sourceTree = "<group>"; };
+		A0D1809E2B16D80A0022C4CA /* iosApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosApp.swift; sourceTree = "<group>"; };
 		A0D180A02B16D80A0022C4CA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A0D180A22B16D80B0022C4CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0D180A52B16D80B0022C4CA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		A0D1809D2B16D80A0022C4CA /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
-				A0D1809E2B16D80A0022C4CA /* iosAppApp.swift */,
+				A0D1809E2B16D80A0022C4CA /* iosApp.swift */,
 				A0D180A02B16D80A0022C4CA /* ContentView.swift */,
 				A0D180A22B16D80B0022C4CA /* Assets.xcassets */,
 				A0D180A42B16D80B0022C4CA /* Preview Content */,
@@ -160,7 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0D180A12B16D80A0022C4CA /* ContentView.swift in Sources */,
-				A0D1809F2B16D80A0022C4CA /* iosAppApp.swift in Sources */,
+				A0D1809F2B16D80A0022C4CA /* iosApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

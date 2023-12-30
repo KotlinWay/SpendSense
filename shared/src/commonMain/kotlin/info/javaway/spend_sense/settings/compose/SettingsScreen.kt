@@ -1,7 +1,6 @@
 package info.javaway.spend_sense.settings.compose
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.stringResource
 import info.javaway.spend_sense.MR
 import info.javaway.spend_sense.common.ui.AppThemeProvider
-import info.javaway.spend_sense.common.ui.LocalAppColors
 import info.javaway.spend_sense.settings.SettingsViewModel
 
 @Composable
@@ -31,7 +29,6 @@ fun BoxScope.SettingsScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
-
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -42,7 +39,7 @@ fun BoxScope.SettingsScreen(
             backgroundColor = AppThemeProvider.colors.background
         ) {
             Text(
-                state.deviceInfo,
+                state.info,
                 color = AppThemeProvider.colors.onBackground,
                 modifier = Modifier.fillMaxWidth().padding(16.dp)
             )

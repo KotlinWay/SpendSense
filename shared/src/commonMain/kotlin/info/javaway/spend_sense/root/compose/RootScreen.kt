@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import info.javaway.spend_sense.categories.CategoriesScreen
 import info.javaway.spend_sense.common.ui.AppTheme
 import info.javaway.spend_sense.common.ui.AppThemeProvider
+import info.javaway.spend_sense.di.getKoinInstance
 import info.javaway.spend_sense.events.EventsScreen
 import info.javaway.spend_sense.root.RootViewModel
 import info.javaway.spend_sense.root.model.AppTab
@@ -18,8 +19,9 @@ import info.javaway.spend_sense.settings.compose.SettingsScreen
 import info.javaway.spend_sense.settings.SettingsViewModel
 
 @Composable
-fun RootScreen(viewModel: RootViewModel) {
+fun RootScreen() {
 
+    val viewModel = getKoinInstance<RootViewModel>()
     val state by viewModel.state.collectAsState()
 
     AppTheme(state.themeIsDark, state.appPrefs) {
@@ -43,7 +45,7 @@ fun BoxScope.RootNavigation(selectedTab: AppTab){
     when(selectedTab){
         AppTab.Categories -> CategoriesScreen()
         AppTab.Events -> EventsScreen()
-        AppTab.Settings -> SettingsScreen(SettingsViewModel())
+        AppTab.Settings -> SettingsScreen(getKoinInstance())
     }
 
 }

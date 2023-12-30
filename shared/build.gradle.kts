@@ -22,15 +22,21 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                //Compose
                 implementation(compose.foundation)
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(compose.material)
 
+                //Resources
                 api(libs.resources.core)
                 api(libs.resources.compose)
 
+                //Settings
                 implementation(libs.settings)
+
+                //Di
+                api(libs.koin.core)
             }
         }
 
