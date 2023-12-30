@@ -7,10 +7,12 @@ import info.javaway.spend_sense.storage.SettingsManager
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class RootViewModel : BaseViewModel<RootState, Nothing>() {
+class RootViewModel(
+    private val settingsManager: SettingsManager
+) : BaseViewModel<RootState, Nothing>() {
 
     init {
-        SettingsManager.themeIsDarkFlow.onEach {
+        settingsManager.themeIsDarkFlow.onEach {
             updateState { copy(themeIsDark = it) }
         }.launchIn(viewModelScope)
 
