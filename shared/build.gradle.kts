@@ -27,6 +27,8 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
 
                 //Resources
                 api(libs.resources.core)

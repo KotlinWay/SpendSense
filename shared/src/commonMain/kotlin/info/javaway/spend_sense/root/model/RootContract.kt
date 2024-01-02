@@ -1,7 +1,7 @@
 package info.javaway.spend_sense.root.model
 
 import info.javaway.spend_sense.base.BaseViewState
-import info.javaway.spend_sense.common.ui.AppPrefs
+import info.javaway.spend_sense.common.ui.theme.AppPrefs
 
 class RootContract {
 

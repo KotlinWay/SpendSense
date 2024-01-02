@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
-import info.javaway.spend_sense.common.ui.AppThemeProvider
+import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
 import info.javaway.spend_sense.root.model.AppTab
 import info.javaway.spend_sense.root.model.BottomBarItem
 

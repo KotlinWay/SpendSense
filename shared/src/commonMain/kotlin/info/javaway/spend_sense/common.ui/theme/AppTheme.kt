@@ -1,10 +1,9 @@
-package info.javaway.spend_sense.common.ui
+package info.javaway.spend_sense.common.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Color
 
 
 data class AppPrefs(
