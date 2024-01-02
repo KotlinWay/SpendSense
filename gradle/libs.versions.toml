@@ -6,6 +6,7 @@ activity-compose = "1.8.2"
 moko-res = "0.23.0"
 settings = "1.0.0"
 koin = "3.4.0"
+kotlinx-datetime = "0.4.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
@@ -14,7 +15,7 @@ resources-core = { module = "dev.icerock.moko:resources", version.ref = "moko-re
 resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-res" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-
+datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
