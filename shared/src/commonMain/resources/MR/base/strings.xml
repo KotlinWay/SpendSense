@@ -4,4 +4,7 @@
     <string name="events">Events</string>
     <string name="categories">Categories</string>
     <string name="settings">Settings</string>
+    <string name="title_category_placeholder">Title category</string>
+    <string name="subtitle_category_placeholder">Subtitle category</string>
+    <string name="save">Save</string>
 </resources>
