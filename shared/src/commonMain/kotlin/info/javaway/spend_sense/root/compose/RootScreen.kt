@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import info.javaway.spend_sense.categories.CategoriesScreen
+import info.javaway.spend_sense.categories.list.compose.CategoriesScreen
 import info.javaway.spend_sense.common.ui.theme.AppTheme
 import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
 import info.javaway.spend_sense.di.getKoinInstance
@@ -42,7 +42,7 @@ fun RootScreen() {
 fun BoxScope.RootNavigation(selectedTab: AppTab){
 
     when(selectedTab){
-        AppTab.Categories -> CategoriesScreen()
+        AppTab.Categories -> CategoriesScreen(getKoinInstance())
         AppTab.Events -> EventsScreen()
         AppTab.Settings -> SettingsScreen(getKoinInstance())
     }

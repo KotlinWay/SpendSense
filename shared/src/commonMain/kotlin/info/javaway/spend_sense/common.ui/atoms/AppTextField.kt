@@ -32,7 +32,9 @@ fun AppTextField(
         colors = TextFieldDefaults.colors(
             focusedIndicatorColor = Color.Transparent,
             cursorColor = AppThemeProvider.colors.onSurface.copy(0.5f),
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent
         ),
         placeholder = { Text(placeholder, color = AppThemeProvider.colors.onSurface.copy(0.5f)) },
         keyboardOptions = keyboardOptions
