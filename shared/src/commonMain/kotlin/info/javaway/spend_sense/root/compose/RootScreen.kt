@@ -12,7 +12,7 @@ import info.javaway.spend_sense.categories.list.compose.CategoriesScreen
 import info.javaway.spend_sense.common.ui.theme.AppTheme
 import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
 import info.javaway.spend_sense.di.getKoinInstance
-import info.javaway.spend_sense.events.EventsScreen
+import info.javaway.spend_sense.events.list.compose.EventsScreen
 import info.javaway.spend_sense.root.RootViewModel
 import info.javaway.spend_sense.root.model.AppTab
 import info.javaway.spend_sense.settings.compose.SettingsScreen
@@ -43,7 +43,7 @@ fun BoxScope.RootNavigation(selectedTab: AppTab){
 
     when(selectedTab){
         AppTab.Categories -> CategoriesScreen(getKoinInstance())
-        AppTab.Events -> EventsScreen()
+        AppTab.Events -> EventsScreen(getKoinInstance())
         AppTab.Settings -> SettingsScreen(getKoinInstance())
     }
 

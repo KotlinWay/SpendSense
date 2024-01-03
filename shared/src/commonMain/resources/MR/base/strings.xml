@@ -7,4 +7,9 @@
     <string name="title_category_placeholder">Title category</string>
     <string name="subtitle_category_placeholder">Subtitle category</string>
     <string name="save">Save</string>
+    <string name="empty_category">Without category</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="spend_to">Spend to..</string>
+    <string name="cost">Cost</string>
 </resources>
