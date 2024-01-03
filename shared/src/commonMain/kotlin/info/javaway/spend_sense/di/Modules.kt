@@ -1,5 +1,6 @@
 package info.javaway.spend_sense.di
 
+import info.javaway.spend_sense.common.ui.calendar.DatePickerViewModel
 import info.javaway.spend_sense.platform.DeviceInfo
 import info.javaway.spend_sense.root.RootViewModel
 import info.javaway.spend_sense.settings.SettingsViewModel
@@ -22,5 +23,6 @@ object ViewModelsModule{
     val viewModels = module {
         single { RootViewModel(get()) }
         factory { SettingsViewModel(get(), get()) }
+        single { DatePickerViewModel() }
     }
 }
