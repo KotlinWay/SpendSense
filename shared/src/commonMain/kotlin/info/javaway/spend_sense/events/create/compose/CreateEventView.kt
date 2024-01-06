@@ -79,6 +79,12 @@ fun CreateEventView(
         ) { viewModel.changeTitle(it) }
 
         AppTextField(
+            value = state.note,
+            placeholder = "note",
+            modifier = Modifier.fillMaxWidth()
+        ) { viewModel.changeNote(it) }
+
+        AppTextField(
             value = state.cost.toString(),
             placeholder = stringResource(MR.strings.cost),
             modifier = Modifier.fillMaxWidth(),
