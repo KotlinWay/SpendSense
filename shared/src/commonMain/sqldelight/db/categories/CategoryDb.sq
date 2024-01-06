@@ -1,0 +1,28 @@
+import kotlinx.datetime.LocalDateTime;
+
+CREATE TABLE CategoryDb (
+id TEXT NOT NULL PRIMARY KEY,
+title TEXT,
+description TEXT,
+createdAt TEXT AS LocalDateTime NOT NULL,
+updatedAt TEXT AS LocalDateTime NOT NULL,
+colorHex TEXT NOT NULL
+);
+
+get:
+SELECT * FROM CategoryDb WHERE id = :id LIMIT 1;
+
+getAll:
+SELECT * FROM CategoryDb;
+
+getByIds:
+SELECT * FROM CategoryDb WHERE id IN :ids;
+
+insert:
+INSERT OR REPLACE INTO CategoryDb VALUES ?;
+
+delete:
+DELETE FROM CategoryDb WHERE id = :id;
+
+clear:
+DELETE FROM CategoryDb;

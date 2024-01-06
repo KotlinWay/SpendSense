@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.moko.res)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -42,17 +43,25 @@ kotlin {
 
                 //Datetime
                 implementation(libs.datetime)
+
+                //Sqldelight
+                implementation(libs.sqldelight.coroutines.extensions)
             }
         }
 
         androidMain {
             dependsOn(commonMain)
+
+            dependencies {
+                implementation(libs.sqldelight.android.driver)
+            }
         }
 
         jvmMain {
             dependsOn(commonMain)
             dependencies {
                 api(compose.desktop.currentOs)
+                implementation(libs.sqldelight.desktop.driver)
             }
         }
 
@@ -64,6 +73,10 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosX64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+
+            dependencies {
+                implementation(libs.sqldelight.native.driver)
+            }
         }
     }
 }
@@ -79,5 +92,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+sqldelight{
+    databases {
+        create("AppDb"){
+            packageName.set("info.javaway.spend_sense.db")
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/db"))
+        }
     }
 }
