@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "spend_events",
+  "info": {
+    "singularName": "spend-event",
+    "pluralName": "spend-events",
+    "displayName": "SpendEvents",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "idLocal": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "categoryId": {
+      "type": "string"
+    },
+    "cost": {
+      "type": "decimal"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "note": {
+      "type": "string"
+    },
+    "createdAtLocal": {
+      "type": "datetime"
+    },
+    "updatedAtLocal": {
+      "type": "datetime"
+    },
+    "userId": {
+      "type": "string"
+    }
+  }
+}

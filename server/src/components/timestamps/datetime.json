@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_timestamps_datetimes",
+  "info": {
+    "displayName": "Datetime",
+    "icon": "alien"
+  },
+  "options": {},
+  "attributes": {
+    "createdAtLocal": {
+      "type": "datetime"
+    },
+    "updatedAtLocal": {
+      "type": "datetime"
+    }
+  }
+}
