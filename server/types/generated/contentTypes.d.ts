@@ -777,7 +777,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     idLocal: Attribute.String;
@@ -786,10 +786,9 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     colorHex: Attribute.String;
     createdAtLocal: Attribute.DateTime;
     updatedAtLocal: Attribute.DateTime;
-    userId: Attribute.String;
+    userId: Attribute.BigInteger;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::category.category',
       'oneToOne',
@@ -814,7 +813,7 @@ export interface ApiSpendEventSpendEvent extends Schema.CollectionType {
     description: '';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     idLocal: Attribute.String;
@@ -825,10 +824,9 @@ export interface ApiSpendEventSpendEvent extends Schema.CollectionType {
     note: Attribute.String;
     createdAtLocal: Attribute.DateTime;
     updatedAtLocal: Attribute.DateTime;
-    userId: Attribute.String;
+    userId: Attribute.BigInteger;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
       'api::spend-event.spend-event',
       'oneToOne',
