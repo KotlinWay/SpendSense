@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -31,7 +31,7 @@
       "type": "datetime"
     },
     "userId": {
-      "type": "string"
+      "type": "biginteger"
     }
   }
 }
