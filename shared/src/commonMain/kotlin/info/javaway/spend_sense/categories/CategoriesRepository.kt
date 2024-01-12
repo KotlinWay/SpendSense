@@ -2,8 +2,6 @@ package info.javaway.spend_sense.categories
 
 import info.javaway.spend_sense.categories.model.Category
 import info.javaway.spend_sense.categories.model.CategoryDao
-import info.javaway.spend_sense.extensions.appLog
-import kotlinx.coroutines.flow.flow
 
 class CategoriesRepository(
     private val dao: CategoryDao
@@ -11,5 +9,9 @@ class CategoriesRepository(
 
     fun getAllFlow() = dao.getAllFlow()
 
-    suspend fun create(category: Category)  = dao.insert(category)
+    suspend fun getAll() = dao.getAll()
+
+    suspend fun insertAll(categories: List<Category>) = dao.insertAll(categories)
+
+    suspend fun create(category: Category) = dao.insert(category)
 }

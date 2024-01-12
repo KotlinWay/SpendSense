@@ -784,9 +784,9 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     title: Attribute.String;
     description: Attribute.String;
     colorHex: Attribute.String;
-    createdAtLocal: Attribute.DateTime;
-    updatedAtLocal: Attribute.DateTime;
     userId: Attribute.BigInteger;
+    createdAtLocal: Attribute.BigInteger;
+    updatedAtLocal: Attribute.BigInteger;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -820,11 +820,11 @@ export interface ApiSpendEventSpendEvent extends Schema.CollectionType {
     title: Attribute.String;
     categoryId: Attribute.String;
     cost: Attribute.Decimal;
-    date: Attribute.DateTime;
     note: Attribute.String;
-    createdAtLocal: Attribute.DateTime;
-    updatedAtLocal: Attribute.DateTime;
     userId: Attribute.BigInteger;
+    date: Attribute.BigInteger;
+    createdAtLocal: Attribute.BigInteger;
+    updatedAtLocal: Attribute.BigInteger;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

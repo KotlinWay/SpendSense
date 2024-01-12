@@ -4,13 +4,8 @@ import db.events.EventDb
 import info.javaway.spend_sense.categories.model.Category
 import info.javaway.spend_sense.common.ui.calendar.model.CalendarLabel
 import info.javaway.spend_sense.extensions.now
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
 
 data class SpendEvent(
     val id: String,
@@ -68,5 +63,27 @@ fun EventDb.toEntity() = SpendEvent(
     date = date,
     createdAt = createdAt,
     updatedAt = updatedAt,
+    note = note.orEmpty()
+)
+
+fun SpendEvent.toApi() = SpendEventApi(
+    id = id,
+    categoryId = categoryId,
+    title = title,
+    cost = cost,
+    date = date,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    note = note
+)
+
+fun SpendEventApi.toEntity() = SpendEvent(
+    id = id.orEmpty(),
+    categoryId = categoryId.orEmpty(),
+    title = title.orEmpty(),
+    cost = cost ?: 0.0,
+    date = date ?: LocalDateTime.now().date,
+    createdAt = createdAt ?: LocalDateTime.now(),
+    updatedAt = updatedAt ?: LocalDateTime.now(),
     note = note.orEmpty()
 )

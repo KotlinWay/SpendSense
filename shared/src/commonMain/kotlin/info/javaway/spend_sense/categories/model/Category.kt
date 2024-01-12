@@ -22,9 +22,6 @@ data class Category(
             colorHex = ""
         )
 
-        fun getStubs() = List(20) { index ->
-            NONE.copy(id = index.toString(), title = "category $index")
-        }
     }
 }
 
@@ -44,4 +41,22 @@ fun Category.toDb() = CategoryDb(
     createdAt = createdAt,
     updatedAt = updatedAt,
     colorHex = colorHex,
+)
+
+fun Category.toApi() = CategoryApi(
+    id = id,
+    title = title,
+    description = description,
+    createdAt = createdAt,
+    updatedAt = updatedAt,
+    colorHex = colorHex,
+)
+
+fun CategoryApi.toEntity() = Category(
+    id = id.orEmpty(),
+    title = title.orEmpty(),
+    description = description.orEmpty(),
+    createdAt = createdAt ?: LocalDateTime.now(),
+    updatedAt = updatedAt ?: LocalDateTime.now(),
+    colorHex = colorHex.orEmpty(),
 )

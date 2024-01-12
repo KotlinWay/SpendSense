@@ -3,15 +3,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import info.javaway.spend_sense.di.getKoinInstance
 import info.javaway.spend_sense.di.initKoin
+import info.javaway.spend_sense.extensions.initLogs
 import info.javaway.spend_sense.root.compose.RootScreen
-import info.javaway.spend_sense.root.RootViewModel
-import info.javaway.spend_sense.sayHello
 
 fun main() {
 
     initKoin()
+    initLogs()
 
     application {
 

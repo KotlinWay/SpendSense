@@ -15,11 +15,11 @@ class SpendEventDao(
 
     private val eventsQueries = db.eventDbQueries
     
-    fun getAll(): List<SpendEvent> =
+    suspend fun getAll(): List<SpendEvent> =
         eventsQueries
             .getAll()
             .executeAsList()
-            .map{ it.toEntity() }
+            .map { it.toEntity() }
 
     fun getAllFlow(): Flow<List<SpendEvent>> =
         eventsQueries

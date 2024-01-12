@@ -29,7 +29,6 @@ fun RootScreen() {
                 .fillMaxSize()
                 .background(AppThemeProvider.colors.background)
         ) {
-
             RootNavigation(state.selectedTab)
             RootBottomBar(state.selectedTab) { tab ->
                 viewModel.handleClickOnTab(tab)
@@ -40,11 +39,9 @@ fun RootScreen() {
 
 @Composable
 fun BoxScope.RootNavigation(selectedTab: AppTab){
-
     when(selectedTab){
         AppTab.Categories -> CategoriesScreen(getKoinInstance())
         AppTab.Events -> EventsScreen(getKoinInstance())
         AppTab.Settings -> SettingsScreen(getKoinInstance())
     }
-
 }

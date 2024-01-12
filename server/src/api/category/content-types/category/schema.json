@@ -24,13 +24,13 @@
     "colorHex": {
       "type": "string"
     },
+    "userId": {
+      "type": "biginteger"
+    },
     "createdAtLocal": {
-      "type": "datetime"
+      "type": "biginteger"
     },
     "updatedAtLocal": {
-      "type": "datetime"
-    },
-    "userId": {
       "type": "biginteger"
     }
   }

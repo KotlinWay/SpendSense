@@ -59,15 +59,15 @@ fun RowScope.BottomBarItemView(
         modifier = Modifier.weight(1f).padding(4.dp).clickable { clickOnTab() },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            stringResource(bottomBarItem.title), color = foreground,
-            modifier = Modifier.padding(bottom = 4.dp)
-        )
         Image(
             painter = painterResource(bottomBarItem.icon),
             contentDescription = stringResource(bottomBarItem.title),
             modifier = Modifier.size(22.dp),
             colorFilter = ColorFilter.tint(foreground)
+        )
+        Text(
+            stringResource(bottomBarItem.title), color = foreground,
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }

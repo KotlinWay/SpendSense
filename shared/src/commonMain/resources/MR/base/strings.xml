@@ -12,4 +12,19 @@
     <string name="date">Date</string>
     <string name="spend_to">Spend to..</string>
     <string name="cost">Cost</string>
+
+    <string name="data_sync_success">Sync success</string>
+    <string name="data_sync_error">Sync error</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="enter">Enter</string>
+    <string name="sync">Sync</string>
+    <string name="if_you_dont_have_acc">If you don\'t have an account yet -</string>
+    <string name="logout">Logout</string>
+    <string name="to_sync_info">To synchronize the data, it is necessary to log into the account
+    </string>
+    <string name="auth_info">You are login: %s</string>
 </resources>
