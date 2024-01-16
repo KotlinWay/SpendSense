@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.update
 
 object SettingsManager {
 
-    var themeIsDark: Boolean = false
+    var themeIsDark: Boolean = true
         set(value) {
             _themeIsDarkFlow.update { value }
             field = value
