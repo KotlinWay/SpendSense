@@ -41,5 +41,5 @@ development mode or yarn start for production mode.<br>
 
 ## 🔗 Social Links
 
-[![Site](https://kmp.guru/kotlin-multiplatform-course/) <br>
+[Site](https://kmp.guru/kotlin-multiplatform-course/) <br>
 [Telegram](https://t.me/twobeerspls)
