@@ -1,22 +1,20 @@
 [versions]
-kotlin = "1.9.20"
-compose = "1.5.11"
-agp = "8.1.0"
-activity-compose = "1.8.2"
-moko-res = "0.23.0"
-settings = "1.0.0"
-koin = "3.4.0"
-kotlinx-datetime = "0.4.0"
-sqldelight = "2.0.0"
-ktor = "2.3.6"
-napier = "2.6.1"
-kotlinx-serialization = "1.6.2"
+kotlin = "2.1.0"
+compose = "1.7.3"
+agp = "8.5.2"
+activity-compose = "1.9.3"
+settings = "1.2.0"
+koin = "4.0.0"
+kotlinx-datetime = "0.6.1"
+sqldelight = "2.0.2"
+ktor = "3.0.1"
+napier = "2.7.1"
+kotlinx-serialization = "1.7.3"
+decompose = "3.3.0-alpha02"
+essenty = "2.4.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-moko-res = { module = "dev.icerock.moko:resources-generator", version.ref = "moko-res" }
-resources-core = { module = "dev.icerock.moko:resources", version.ref = "moko-res" }
-resources-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-res" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
@@ -28,24 +26,25 @@ sqldelight-desktop-driver = { module = "app.cash.sqldelight:sqlite-driver", vers
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
 ktor-client-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+
+essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", version.ref = "essenty" }
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-moko-res = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "moko-res" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

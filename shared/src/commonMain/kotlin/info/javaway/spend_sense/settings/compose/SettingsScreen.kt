@@ -20,32 +20,39 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.StringResource
-import dev.icerock.moko.resources.compose.stringResource
-import info.javaway.spend_sense.MR
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import info.javaway.spend_sense.common.ui.atoms.AppToast
 import info.javaway.spend_sense.common.ui.atoms.RootBox
 import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
+import info.javaway.spend_sense.settings.SettingsComponent
 import info.javaway.spend_sense.settings.SettingsContract
-import info.javaway.spend_sense.settings.SettingsViewModel
+import info.javaway.spend_sense.settings.SettingsContract.UiEvent.*
 import info.javaway.spend_sense.settings.child.auth.compose.AuthView
 import info.javaway.spend_sense.settings.child.sync.compose.SyncView
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
+import spendsense.shared.generated.resources.Res
+import spendsense.shared.generated.resources.dark_theme
+import spendsense.shared.generated.resources.data_sync_error
+import spendsense.shared.generated.resources.data_sync_success
 
 @Composable
 fun BoxScope.SettingsScreen(
-    viewModel: SettingsViewModel
+    component: SettingsComponent
 ) {
 
-    val state by viewModel.state.collectAsState()
+    val state by component.state.collectAsState()
+    val stack by component.stack.subscribeAsState()
+    val onEvent = component::onEvent
     var showMessage by remember { mutableStateOf<StringResource?>(null) }
 
     LaunchedEffect(Unit) {
-        viewModel.events.onEach { event ->
+        component.effect.onEach { event ->
             when (event) {
-                SettingsContract.Event.DataSynced -> showMessage = MR.strings.data_sync_success
-                is SettingsContract.Event.Error -> MR.strings.data_sync_error
+                SettingsContract.Effect.DataSynced -> showMessage = Res.string.data_sync_success
+                is SettingsContract.Effect.Error -> Res.string.data_sync_error
             }
         }.launchIn(this)
     }
@@ -57,18 +64,10 @@ fun BoxScope.SettingsScreen(
                 .align(Alignment.Center)
         ) {
 
-            if (state.isAuth) {
-                SyncView(
-                    email = state.email,
-                    isLoading = state.isLoading,
-                    syncListener = { viewModel.sync() },
-                    logoutListener = { viewModel.logout() }
-                )
-            } else {
-                AuthView { viewModel.sync() }
+            when(val child = stack.active.instance){
+                is SettingsContract.Child.Auth ->  AuthView(child.component)
+                is SettingsContract.Child.Sync ->  SyncView(child.component)
             }
-
-
 
             Row(
                 modifier = Modifier.padding(16.dp)
@@ -77,11 +76,11 @@ fun BoxScope.SettingsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    stringResource(MR.strings.dark_theme), modifier = Modifier.weight(1f),
+                    stringResource(Res.string.dark_theme), modifier = Modifier.weight(1f),
                     color = AppThemeProvider.colors.onSurface
                 )
                 Switch(
-                    state.themeIsDark, onCheckedChange = { viewModel.switchTheme(it) },
+                    state.themeIsDark, onCheckedChange = { onEvent(SwitchTheme(it)) },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = AppThemeProvider.colors.accent,
                         uncheckedTrackColor = AppThemeProvider.colors.onSurface.copy(0.5f),

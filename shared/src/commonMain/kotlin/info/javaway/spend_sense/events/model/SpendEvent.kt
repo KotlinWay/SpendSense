@@ -2,7 +2,7 @@ package info.javaway.spend_sense.events.model
 
 import db.events.EventDb
 import info.javaway.spend_sense.categories.model.Category
-import info.javaway.spend_sense.common.ui.calendar.model.CalendarLabel
+import info.javaway.spend_sense.calendar.model.CalendarLabel
 import info.javaway.spend_sense.extensions.now
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime

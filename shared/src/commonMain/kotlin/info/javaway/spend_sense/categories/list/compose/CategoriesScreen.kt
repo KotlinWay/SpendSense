@@ -1,60 +1,37 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalMaterialApi::class)
-
 package info.javaway.spend_sense.categories.list.compose
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import info.javaway.spend_sense.categories.create.compose.CreateCategoryView
-import info.javaway.spend_sense.categories.list.CategoriesViewModel
+import info.javaway.spend_sense.categories.list.CategoriesComponent
+import info.javaway.spend_sense.categories.list.CategoriesContract.Child
+import info.javaway.spend_sense.categories.list.CategoriesContract.UiEvent.CreateCategory
+import info.javaway.spend_sense.categories.list.CategoriesContract.UiEvent.CreateCategoryDialogDismiss
+import info.javaway.spend_sense.categories.list.CategoriesContract.UiEvent.ShowCreateCategoryDialog
 import info.javaway.spend_sense.common.ui.atoms.FAB
 import info.javaway.spend_sense.common.ui.atoms.RootBox
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CategoriesScreen(
-    viewModel: CategoriesViewModel
+    component: CategoriesComponent
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        ModalBottomSheetValue.Hidden, skipHalfExpanded = true
-    )
-    val scope = rememberCoroutineScope()
 
-    ModalBottomSheetLayout(
-        sheetContent = {
-            CreateCategoryView(
-                isExpand = sheetState.currentValue == ModalBottomSheetValue.Expanded
-            ) { data ->
-                scope.launch { sheetState.hide() }
-                viewModel.createCategory(data)
-            }
-        },
-        sheetState = sheetState,
-        sheetBackgroundColor = Color.Transparent,
-        modifier = Modifier.zIndex(1f)
-    ) {
-        RootBox {
-            CategoriesListView(viewModel, Modifier.fillMaxSize().padding(8.dp)) {
+    val state by component.state.collectAsState()
+    val slots by component.slots.subscribeAsState()
+    val onEvent = component::onEvent
 
-            }
-            FAB { scope.launch { sheetState.show() } }
-        }
+    RootBox {
+        CategoriesListView(state.categories) { }
+        FAB { onEvent(ShowCreateCategoryDialog) }
+    }
+
+    when(slots.child?.instance){
+        is Child.CreateCategory -> CreateCategoryView(
+            onDismissRequest = { onEvent(CreateCategoryDialogDismiss) },
+            createListener = { data -> onEvent(CreateCategory(data)) }
+        )
+        null -> Unit
     }
 }
-
-
-
-
-
-
-

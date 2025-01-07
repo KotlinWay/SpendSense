@@ -23,7 +23,7 @@ fun initKoin(
         StorageModule.settings,
         platformModule,
         appModule,
-        ViewModelsModule.viewModels,
+        ViewModelsModule.components,
         RepositoriesModule.repositories,
         StorageModule.db,
         StorageModule.dao,
