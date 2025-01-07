@@ -1,135 +1,126 @@
 package info.javaway.spend_sense.events.create.compose
 
-import androidx.compose.foundation.background
+
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import dev.icerock.moko.resources.compose.stringResource
-import info.javaway.spend_sense.MR
-import info.javaway.spend_sense.categories.list.compose.CategoriesListView
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import info.javaway.spend_sense.calendar.compose.CalendarColors
+import info.javaway.spend_sense.calendar.compose.CalendarDialogUi
+import info.javaway.spend_sense.categories.picker.CategoryPickerUi
 import info.javaway.spend_sense.common.ui.atoms.AppButton
+import info.javaway.spend_sense.common.ui.atoms.AppModalBottomSheetNative
 import info.javaway.spend_sense.common.ui.atoms.AppTextField
-import info.javaway.spend_sense.common.ui.atoms.BottomModalContainer
 import info.javaway.spend_sense.common.ui.atoms.TextPairButton
-import info.javaway.spend_sense.common.ui.calendar.compose.CalendarColors
-import info.javaway.spend_sense.common.ui.calendar.compose.DatePickerView
-import info.javaway.spend_sense.common.ui.calendar.model.CalendarDay
 import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
-import info.javaway.spend_sense.di.DatePickerFactoryQualifier
-import info.javaway.spend_sense.di.getKoinInstance
-import info.javaway.spend_sense.events.create.CreateEventViewModel
-import info.javaway.spend_sense.events.model.SpendEvent
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import info.javaway.spend_sense.events.create.CreateEventComponent
+import info.javaway.spend_sense.events.create.CreateEventContract.Child
+import info.javaway.spend_sense.events.create.CreateEventContract.State
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.ChangeCost
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.ChangeNote
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.ChangeTitle
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.ClickOnCategories
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.ClickOnDate
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.Dismiss
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.DismissCalendar
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.DismissCategories
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.Finish
+import info.javaway.spend_sense.events.create.CreateEventContract.UiEvent.SelectCategory
+import io.github.aakira.napier.Napier
+import org.jetbrains.compose.resources.stringResource
+import spendsense.shared.generated.resources.Res
+import spendsense.shared.generated.resources.category
+import spendsense.shared.generated.resources.cost
+import spendsense.shared.generated.resources.date
+import spendsense.shared.generated.resources.empty_category
+import spendsense.shared.generated.resources.save
+import spendsense.shared.generated.resources.spend_to
 
 @Composable
 fun CreateEventView(
-    isExpand: Boolean,
-    selectedDay: CalendarDay?,
-    viewModel: CreateEventViewModel,
-    createListener: (SpendEvent) -> Unit
+    component: CreateEventComponent,
 ) {
 
-    val state by viewModel.state.collectAsState()
-    var showDateDialog by remember { mutableStateOf(false) }
-    var showCategoriesDialog by remember { mutableStateOf(false) }
+    val state by component.state.collectAsState()
+    val slots by component.slots.subscribeAsState()
+    val onEvent = component::onEvent
 
-    LaunchedEffect(isExpand) {
-        if (isExpand) {
-            viewModel.selectDate(selectedDay?.date)
-        } else {
-            viewModel.resetState()
-        }
+    CreateEventViewContent(state, onEvent)
 
-        viewModel.events.onEach { event ->
-            when (event) {
-                is CreateEventViewModel.Event.Finish -> createListener(event.spendEvent)
-            }
-        }.launchIn(this)
+    when (val child = slots.child?.instance) {
+        is Child.Calendar -> CalendarDialogUi(
+            component = child.component,
+            colors = CalendarColors.default.copy(
+                colorSurface = AppThemeProvider.colors.surface,
+                colorOnSurface = AppThemeProvider.colors.onSurface,
+                colorAccent = AppThemeProvider.colors.accent
+            ),
+            onDismiss = { onEvent(DismissCalendar) }
+        )
+
+        is Child.CategoriesPicker -> CategoryPickerUi(
+            categories = state.categories,
+            onDismiss = { onEvent(DismissCategories) },
+            selectCategory = { onEvent(SelectCategory(it)) }
+        )
+
+        null -> Unit
     }
+}
 
+@Composable
+fun CreateEventViewContent(
+    state: State,
+    onEvent: (UiEvent) -> Unit
+) {
 
-    BottomModalContainer {
-        TextPairButton(
-            title = stringResource(MR.strings.category),
-            buttonTitle = state.category.title.ifEmpty { stringResource(MR.strings.empty_category) },
-            colorHex = state.category.colorHex.takeIf { it.isNotEmpty() }
-        ) { showCategoriesDialog = true }
+    AppModalBottomSheetNative(onDismissRequest = { onEvent(Dismiss) }) {
+        Column (
+            modifier = Modifier.padding(8.dp).padding(bottom = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            TextPairButton(
+                title = stringResource(Res.string.category),
+                buttonTitle = state.category.title.ifEmpty { stringResource(Res.string.empty_category) },
+                colorHex = state.category.colorHex.takeIf { it.isNotEmpty() }
+            ) { onEvent(ClickOnCategories) }
 
-        TextPairButton(
-            title = stringResource(MR.strings.date),
-            buttonTitle = state.date.toString()
-        ) { showDateDialog = true }
+            TextPairButton(
+                title = stringResource(Res.string.date),
+                buttonTitle = state.date.toString()
+            ) { onEvent(ClickOnDate) }
 
-        AppTextField(
-            value = state.title,
-            placeholder = stringResource(MR.strings.spend_to),
-            modifier = Modifier.fillMaxWidth()
-        ) { viewModel.changeTitle(it) }
+            AppTextField(
+                value = state.title,
+                placeholder = stringResource(Res.string.spend_to),
+                modifier = Modifier.fillMaxWidth()
+            ) { onEvent(ChangeTitle(it)) }
 
-        AppTextField(
-            value = state.note,
-            placeholder = "note",
-            modifier = Modifier.fillMaxWidth()
-        ) { viewModel.changeNote(it) }
+            AppTextField(
+                value = state.note,
+                placeholder = "note",
+                modifier = Modifier.fillMaxWidth()
+            ) { onEvent(ChangeNote(it)) }
 
-        AppTextField(
-            value = state.cost.toString(),
-            placeholder = stringResource(MR.strings.cost),
-            modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        ) { viewModel.changeCost(it) }
+            AppTextField(
+                value = state.cost.toString(),
+                placeholder = stringResource(Res.string.cost),
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            ) { onEvent(ChangeCost(it)) }
 
-        AppButton(stringResource(MR.strings.save)) {
-            viewModel.finish()
-        }
-    }
-
-
-    if (showCategoriesDialog) {
-        Dialog(
-            onDismissRequest = { showCategoriesDialog = false }
-        ) {
-            CategoriesListView(
-                getKoinInstance(),
-                modifier = Modifier.background(
-                    AppThemeProvider.colors.surface,
-                    RoundedCornerShape(16.dp)
-                )
-            ) { category ->
-                showCategoriesDialog = false
-                viewModel.selectCategory(category)
-            }
-        }
-    }
-
-    if (showDateDialog) {
-        Dialog(onDismissRequest = { showDateDialog = false }) {
-            DatePickerView(
-                viewModel = getKoinInstance(DatePickerFactoryQualifier),
-                colors = CalendarColors.default.copy(
-                    colorAccent = AppThemeProvider.colors.accent,
-                    colorOnSurface = AppThemeProvider.colors.onSurface,
-                    colorSurface = AppThemeProvider.colors.surface
-                )
-            ){ day ->
-                showDateDialog = false
-                viewModel.selectDate(day.date)
-            }
+            AppButton(stringResource(Res.string.save)) { onEvent(Finish) }
         }
     }
-
 }
 
 

@@ -1,14 +1,17 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.moko.res)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
     jvm()
+
     androidTarget()
 
     listOf(
@@ -18,6 +21,13 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "shared"
+            export(libs.decompose)
+            export(libs.sqldelight.native.driver)
+            export(libs.essenty.lifecycle)
+            linkerOpts.add("-lsqlite3")
+        }
+        iosTarget.compilations.all{
+            kotlinOptions.freeCompilerArgs += "-Xexpect-actual-classes"
         }
     }
 
@@ -31,10 +41,7 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
-
-                //Resources
-                api(libs.resources.core)
-                api(libs.resources.compose)
+                implementation(compose.components.resources)
 
                 //Settings
                 implementation(libs.settings)
@@ -55,48 +62,45 @@ kotlin {
                 implementation(libs.ktor.client.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.kotlinx.serialization.core)
+                implementation(libs.kotlinx.serialization.json)
 
                 //Logs
                 api(libs.napier)
+
+                //Decompose
+                api(libs.decompose)
+                api(libs.decompose.compose)
+                api(libs.essenty.lifecycle)
             }
         }
 
-        androidMain {
-            dependsOn(commonMain)
-
-            dependencies {
-                implementation(libs.sqldelight.android.driver)
-                implementation(libs.ktor.client.android)
-            }
+        androidMain.dependencies {
+            implementation(libs.sqldelight.android.driver)
+            implementation(libs.ktor.client.android)
         }
 
-        jvmMain {
-            dependsOn(commonMain)
-            dependencies {
-                api(compose.desktop.currentOs)
-                implementation(libs.sqldelight.desktop.driver)
-            }
+        jvmMain. dependencies {
+            api(compose.desktop.currentOs)
+            implementation(libs.sqldelight.desktop.driver)
         }
 
         val iosArm64Main by getting
         val iosX64Main by getting
         val iosSimulatorArm64Main by getting
-        iosMain {
+        val iosMain by creating {
             dependsOn(commonMain)
+
             iosArm64Main.dependsOn(this)
             iosX64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation(libs.sqldelight.native.driver)
+                api(libs.sqldelight.native.driver)
                 implementation(libs.ktor.client.ios)
             }
         }
-    }
-}
 
-multiplatformResources {
-    multiplatformResourcesPackage = "info.javaway.spend_sense"
+    }
 }
 
 android {
@@ -107,6 +111,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    defaultConfig {
+        multiDexEnabled = true
+    }
 }
 
 sqldelight{
@@ -115,5 +122,6 @@ sqldelight{
             packageName.set("info.javaway.spend_sense.db")
             schemaOutputDirectory.set(file("src/commonMain/sqldelight/db"))
         }
+        linkSqlite = true
     }
 }
