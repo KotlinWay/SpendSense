@@ -15,12 +15,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.stringResource
-import info.javaway.spend_sense.MR
+
+
 import info.javaway.spend_sense.common.ui.atoms.ColorLabel
 import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
 import info.javaway.spend_sense.events.model.SpendEventUI
 import info.javaway.spend_sense.extensions.fromHex
+import org.jetbrains.compose.resources.stringResource
+import spendsense.shared.generated.resources.Res
+import spendsense.shared.generated.resources.empty_category
 
 @Composable
 fun SpendEventItem(event: SpendEventUI) {
@@ -49,7 +52,7 @@ fun SpendEventItem(event: SpendEventUI) {
                 )
             }
             Text(
-                event.category.title.ifEmpty { stringResource(MR.strings.empty_category) },
+                event.category.title.ifEmpty { stringResource(Res.string.empty_category) },
                 fontSize = 16.sp,
                 color = categoryColor,
                 modifier = Modifier.padding(bottom = 2.dp)

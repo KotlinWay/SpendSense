@@ -3,7 +3,9 @@ package info.javaway.spend_sense.categories.model
 import db.categories.CategoryDb
 import info.javaway.spend_sense.extensions.now
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Category(
     val id: String,
     val title: String,

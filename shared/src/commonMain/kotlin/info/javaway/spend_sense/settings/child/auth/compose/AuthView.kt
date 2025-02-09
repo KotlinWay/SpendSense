@@ -20,65 +20,63 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import dev.icerock.moko.resources.compose.stringResource
-import info.javaway.spend_sense.MR
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+
+
 import info.javaway.spend_sense.common.ui.atoms.AppButton
 import info.javaway.spend_sense.common.ui.atoms.AppCard
 import info.javaway.spend_sense.common.ui.theme.AppThemeProvider
 import info.javaway.spend_sense.di.getKoinInstance
+import info.javaway.spend_sense.settings.child.auth.AuthComponent
+import info.javaway.spend_sense.settings.child.auth.AuthContract
+import info.javaway.spend_sense.settings.child.auth.AuthContract.*
 import info.javaway.spend_sense.settings.child.auth.child.register.compose.RegisterDialog
 import info.javaway.spend_sense.settings.child.auth.child.signin.compose.SignInDialog
+import org.jetbrains.compose.resources.stringResource
+import spendsense.shared.generated.resources.Res
+import spendsense.shared.generated.resources.enter
+import spendsense.shared.generated.resources.if_you_dont_have_acc
+import spendsense.shared.generated.resources.register
+import spendsense.shared.generated.resources.to_sync_info
 
 @Composable
-fun AuthView(successListener: () -> Unit) {
+fun AuthView(component: AuthComponent) {
 
-    var showSignInDialog by remember { mutableStateOf(false) }
-    var showRegisterDialog by remember { mutableStateOf(false) }
+    val onEvent = component::onEvent
+    val slots by component.slots.subscribeAsState()
 
     AppCard {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                stringResource(MR.strings.to_sync_info),
+                stringResource(Res.string.to_sync_info),
                 fontSize = 18.sp
             )
 
             AppButton(
-                stringResource(MR.strings.enter),
+                stringResource(Res.string.enter),
                 modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
-            ) { showSignInDialog = true }
+            ) { onEvent(UiEvent.ClickOnSignIn) }
 
             Text(
                 text = buildAnnotatedString {
-                    append(stringResource(MR.strings.if_you_dont_have_acc))
+                    append(stringResource(Res.string.if_you_dont_have_acc))
                     withStyle(
                         style = SpanStyle(
                             color = AppThemeProvider.colors.accent,
                             textDecoration = TextDecoration.Underline,
                             fontWeight = FontWeight.Bold
                         )
-                    ) { append(stringResource(MR.strings.register)) }
+                    ) { append(stringResource(Res.string.register)) }
                 },
                 modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally)
-                    .clickable { showRegisterDialog = true }
+                    .clickable {onEvent(UiEvent.ClickOnRegister) }
             )
         }
     }
 
-    if (showSignInDialog) {
-        Dialog(onDismissRequest = { showSignInDialog = false }) {
-            SignInDialog(getKoinInstance()) {
-                showSignInDialog = false
-                successListener()
-            }
-        }
-    }
-
-    if (showRegisterDialog) {
-        Dialog(onDismissRequest = { showRegisterDialog = false }) {
-            RegisterDialog(getKoinInstance()) {
-                showRegisterDialog = false
-                successListener()
-            }
-        }
+    when(val child = slots.child?.instance) {
+        is Child.Register -> RegisterDialog(child.component)
+        is Child.SignIn -> SignInDialog(child.component)
+        null -> Unit
     }
 }

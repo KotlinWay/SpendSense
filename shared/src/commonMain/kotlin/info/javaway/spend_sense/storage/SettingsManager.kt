@@ -14,7 +14,6 @@ class SettingsManager(private val settings: Settings) {
     //your local machine
     val serverUrl = "http://192.168.1.194:1337"
 
-
     private val _themeIsDarkFlow = MutableStateFlow(themeIsDark)
     val themeIsDarkFlow = _themeIsDarkFlow.asStateFlow()
     var themeIsDark: Boolean

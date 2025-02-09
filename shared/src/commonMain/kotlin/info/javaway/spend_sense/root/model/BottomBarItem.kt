@@ -1,19 +1,29 @@
 package info.javaway.spend_sense.root.model
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.List
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.List
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.ui.graphics.vector.ImageVector
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
+import spendsense.shared.generated.resources.Res
+import spendsense.shared.generated.resources.categories
+import spendsense.shared.generated.resources.events
+import spendsense.shared.generated.resources.settings
 
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.StringResource
-import info.javaway.spend_sense.MR
 
 data class BottomBarItem(
     val title: StringResource,
     val appTab: AppTab,
-    val icon: ImageResource
+    val icon: ImageVector
 ) {
     companion object {
         fun getItems() = listOf(
-            BottomBarItem(MR.strings.events, AppTab.Events, MR.images.ic_calendar),
-            BottomBarItem(MR.strings.categories, AppTab.Categories, MR.images.ic_categories),
-            BottomBarItem(MR.strings.settings, AppTab.Settings, MR.images.ic_settings),
+            BottomBarItem(Res.string.events, AppTab.Events, Icons.Rounded.CalendarMonth),
+            BottomBarItem(Res.string.categories, AppTab.Categories, Icons.Rounded.Folder),
+            BottomBarItem(Res.string.settings, AppTab.Settings, Icons.Rounded.Settings),
         )
     }
 }
