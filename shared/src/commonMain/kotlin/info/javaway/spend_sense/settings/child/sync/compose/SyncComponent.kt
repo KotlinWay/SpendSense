@@ -36,7 +36,7 @@ class SyncComponent(
     private val onOutput : (Output) -> Unit
 ) : ComponentContext by context, StateHolder<State>, UiEventHandler<UiEvent> {
 
-    private val _state = MutableStateFlow(State())
+    private val _state = MutableStateFlow(State(email = settingsManager.email))
     override val state = _state.asStateFlow()
 
     override fun onEvent(event: UiEvent) {

@@ -12,15 +12,18 @@ import info.javaway.spend_sense.settings.child.auth.child.register.RegisterContr
 import info.javaway.spend_sense.settings.child.auth.child.register.model.AuthResponse
 import info.javaway.spend_sense.settings.child.auth.child.register.model.RegisterRequest
 import info.javaway.spend_sense.storage.SettingsManager
+import io.github.aakira.napier.Napier
 import io.ktor.client.call.body
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.isSuccess
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RegisterComponent(
     context: ComponentContext,
@@ -61,7 +64,7 @@ class RegisterComponent(
                 val regResponse = response.body<AuthResponse>()
                 settings.token = regResponse.jwt.orEmpty()
                 settings.email = state.value.email
-                onOutput(Output.Success)
+                withContext(Dispatchers.Main){ onOutput(Output.Success) }
             } else {
                 val error = response.body<ApiErrorWrapper>().error
                 _effects.emit(Effect.Error(error?.message ?: response.bodyAsText()))

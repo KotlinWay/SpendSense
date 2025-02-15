@@ -8,11 +8,14 @@ import com.arkivanov.decompose.router.slot.childSlot
 import com.arkivanov.decompose.router.slot.dismiss
 import com.arkivanov.decompose.value.Value
 import info.javaway.spend_sense.base.UiEventHandler
+import info.javaway.spend_sense.extensions.componentScope
 import info.javaway.spend_sense.settings.child.auth.AuthContract.*
 import info.javaway.spend_sense.settings.child.auth.child.register.RegisterComponent
 import info.javaway.spend_sense.settings.child.auth.child.register.RegisterContract
 import info.javaway.spend_sense.settings.child.auth.child.signin.SignInComponent
 import info.javaway.spend_sense.settings.child.auth.child.signin.SignInContract
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AuthComponent(
     context: ComponentContext,
@@ -58,8 +61,10 @@ class AuthComponent(
     }
 
     private fun completeLogin() {
-        slotNavigation.dismiss()
-        onOutput(Output.Success)
+        componentScope.launch(Dispatchers.Main) {
+            slotNavigation.dismiss()
+            onOutput(Output.Success)
+        }
     }
 
     class Factory(

@@ -8,36 +8,26 @@ import com.arkivanov.decompose.router.stack.replaceAll
 import com.arkivanov.decompose.value.Value
 import info.javaway.spend_sense.base.StateHolder
 import info.javaway.spend_sense.base.UiEventHandler
-import info.javaway.spend_sense.categories.CategoriesRepository
-import info.javaway.spend_sense.categories.model.CategoryApi
-import info.javaway.spend_sense.categories.model.toApi
-import info.javaway.spend_sense.categories.model.toEntity
-import info.javaway.spend_sense.events.EventsRepository
-import info.javaway.spend_sense.events.model.SpendEventApi
-import info.javaway.spend_sense.events.model.toApi
-import info.javaway.spend_sense.events.model.toEntity
-import info.javaway.spend_sense.extensions.appLog
 import info.javaway.spend_sense.extensions.componentScope
 import info.javaway.spend_sense.extensions.updateState
-import info.javaway.spend_sense.network.AppApi
 import info.javaway.spend_sense.platform.DeviceInfo
-import info.javaway.spend_sense.settings.SettingsContract.*
+import info.javaway.spend_sense.settings.SettingsContract.Child
+import info.javaway.spend_sense.settings.SettingsContract.Config
+import info.javaway.spend_sense.settings.SettingsContract.Effect
+import info.javaway.spend_sense.settings.SettingsContract.State
+import info.javaway.spend_sense.settings.SettingsContract.UiEvent
 import info.javaway.spend_sense.settings.child.auth.AuthComponent
 import info.javaway.spend_sense.settings.child.auth.AuthContract
 import info.javaway.spend_sense.settings.child.sync.compose.SyncComponent
 import info.javaway.spend_sense.settings.child.sync.compose.SyncContract
 import info.javaway.spend_sense.storage.SettingsManager
-import io.ktor.client.call.body
-import io.ktor.http.isSuccess
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import org.koin.core.KoinApplication.Companion.init
 
 class SettingsComponent(
     context: ComponentContext,
@@ -53,11 +43,14 @@ class SettingsComponent(
     private val _effect = MutableSharedFlow<Effect>()
     val effect = _effect.asSharedFlow()
 
+    private val initConfig: Config
+        get() = if(settingsManager.email.isBlank()) Config.Auth else Config.Sync
+
     private val stackNavigation = StackNavigation<Config>()
     val stack: Value<ChildStack<*, Child>> = childStack(
         source = stackNavigation,
         serializer = Config.serializer(),
-        initialConfiguration = Config.Auth,
+        initialConfiguration = initConfig,
         childFactory = ::createChild
     )
 
@@ -99,7 +92,10 @@ class SettingsComponent(
     private fun bindToEmail() {
         settingsManager.emailFlow.onEach { email ->
             _state.updateState { copy(email = email) }
-        }.launchIn(componentScope)
+            stackNavigation.replaceAll(if(email.isBlank()) Config.Auth else Config.Sync)
+        }
+            .flowOn(Dispatchers.Main)
+            .launchIn(componentScope)
     }
 
     private fun bindToToken() {
